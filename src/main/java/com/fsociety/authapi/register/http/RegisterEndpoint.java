@@ -5,6 +5,7 @@ import com.fsociety.authapi.register.domain.dto.UserRequestDTO;
 import com.fsociety.authapi.register.domain.dto.UserResponseDTO;
 import com.fsociety.authapi.utils.ResponseBody;
 import com.fsociety.authapi.utils.ResponseEntityBuilder;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Endpoint for user registration.
  */
 @RestController
-@RequestMapping("/api/v1/register")
+@RequestMapping("/v1/register")
 public class RegisterEndpoint {
 
     private final RegisterService registerService;
@@ -30,7 +31,7 @@ public class RegisterEndpoint {
      * @throws Exception if an error occurs during registration this exception will catch by the global exception handler
      */
     @PostMapping
-    public ResponseEntity<ResponseBody<UserResponseDTO>> register(@RequestBody UserRequestDTO userRegisterDTO) throws Exception {
+    public ResponseEntity<ResponseBody<UserResponseDTO>> register(@Valid @RequestBody UserRequestDTO userRegisterDTO) throws Exception {
         UserResponseDTO registeredUser = registerService.register(userRegisterDTO);
         return buildResponse(registeredUser);
     }

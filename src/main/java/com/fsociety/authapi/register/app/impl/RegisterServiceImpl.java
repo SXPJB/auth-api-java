@@ -1,6 +1,7 @@
 package com.fsociety.authapi.register.app.impl;
 
 import com.fsociety.authapi.catalog.app.CatalogService;
+import com.fsociety.authapi.emailmanager.app.EmailService;
 import com.fsociety.authapi.register.app.RegisterService;
 import com.fsociety.authapi.register.domain.PersonRepository;
 import com.fsociety.authapi.register.domain.User;
@@ -12,9 +13,15 @@ import com.fsociety.authapi.register.domain.dto.UserResponseDTO;
 import com.fsociety.authapi.utils.NotFoundException;
 import com.fsociety.authapi.utils.RegistrationException;
 import jakarta.transaction.Transactional;
+import jakarta.transaction.TransactionalException;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.sql.Timestamp;
 
 /**
  * Service implementation for user registration.
@@ -25,16 +32,20 @@ import org.springframework.stereotype.Service;
 public class RegisterServiceImpl implements RegisterService {
     private final Logger log = LoggerFactory.getLogger(RegisterServiceImpl.class);
 
+    private final EmailService emailService;
     private final CatalogService genderService;
     private final UserRepository userRepository;
     private final PersonRepository personRepository;
 
     public RegisterServiceImpl(CatalogService genderService,
                                UserRepository userRepository,
-                               PersonRepository personRepository) {
+                               PersonRepository personRepository,
+                               EmailService emailService
+    ) {
         this.genderService = genderService;
         this.userRepository = userRepository;
         this.personRepository = personRepository;
+        this.emailService = emailService;
     }
 
     /**
@@ -50,7 +61,9 @@ public class RegisterServiceImpl implements RegisterService {
         log.info("Registering user: \n{}", userRegisterDTO);
         try {
             User user = buildUserFromRequest(userRegisterDTO);
-            return buildResponseFromUser(user);
+            UserResponseDTO userResponseDTO = buildResponseFromUser(user);
+            sendConfirmationEmail(user);
+            return userResponseDTO;
         } catch (Exception e) {
             log.error("Error while registering user.", e);
             throw new RegistrationException("Error while registering user: " + e.getMessage(), e.getCause());
@@ -68,6 +81,7 @@ public class RegisterServiceImpl implements RegisterService {
         User user = userBuilder
                 .fromUserRegisterDTO(userRegisterDTO)
                 .withGender(userRegisterDTO.getGender(), genderService)
+                .withExpirationCode()
                 .build();
 
         user.setPerson(personRepository.save(user.getPerson()));
@@ -80,9 +94,14 @@ public class RegisterServiceImpl implements RegisterService {
      * @param user the user entity
      * @return the response entity
      */
-    private UserResponseDTO buildResponseFromUser(User user) {
+    protected UserResponseDTO buildResponseFromUser(User user) throws TransactionalException {
         return new UserResponseBuilder()
                 .fromUser(userRepository.save(user))
                 .build();
     }
+
+    private void sendConfirmationEmail(User user) {
+        emailService.sendConfirmationEmail(user.getUsername(), user.getPerson().getEmail(), user.getConfirmationCode());
+    }
+
 }
