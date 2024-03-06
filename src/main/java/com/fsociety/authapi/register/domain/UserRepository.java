@@ -1,12 +1,11 @@
 package com.fsociety.authapi.register.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<User> findByUsernameAndConfirmationCodeAndActiveIsTrue(String username, String confirmationCode);
-
+  Optional<User> findByUsernameAndConfirmationCodeAndActiveIsTrue(
+      String username, String confirmationCode);
 }

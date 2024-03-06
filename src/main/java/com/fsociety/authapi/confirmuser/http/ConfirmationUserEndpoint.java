@@ -11,21 +11,22 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/v1/confirm-user")
 public class ConfirmationUserEndpoint {
 
-    private final ConfirmUserService confirmUserService;
+  private final ConfirmUserService confirmUserService;
 
-    public ConfirmationUserEndpoint(ConfirmUserService confirmUserService) {
-        this.confirmUserService = confirmUserService;
+  public ConfirmationUserEndpoint(ConfirmUserService confirmUserService) {
+    this.confirmUserService = confirmUserService;
+  }
+
+  @GetMapping("/{username}/{confirmationCode}")
+  public ModelAndView confirmUser(
+      @PathVariable String username, @PathVariable String confirmationCode) {
+    ModelAndView modelAndView = new ModelAndView();
+    if (confirmUserService.confirmUser(username, confirmationCode)) {
+
+      modelAndView.setViewName("user-confirmation-page");
+      return modelAndView;
     }
-
-    @GetMapping("/{username}/{confirmationCode}")
-    public ModelAndView confirmUser(@PathVariable String username, @PathVariable String confirmationCode) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (confirmUserService.confirmUser(username, confirmationCode)) {
-
-            modelAndView.setViewName("user-confirmation-page");
-            return modelAndView;
-        }
-        modelAndView.setViewName("user-confirmation-error-page");
-        return modelAndView;
-    }
+    modelAndView.setViewName("user-confirmation-error-page");
+    return modelAndView;
+  }
 }

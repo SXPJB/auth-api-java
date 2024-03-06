@@ -10,44 +10,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Endpoint for user registration.
- */
+/** Endpoint for user registration. */
 @RestController
 @RequestMapping("/v1/register")
 public class RegisterEndpoint {
 
-    private final RegisterService registerService;
+  private final RegisterService registerService;
 
-    public RegisterEndpoint(RegisterService registerService) {
-        this.registerService = registerService;
-    }
+  public RegisterEndpoint(RegisterService registerService) {
+    this.registerService = registerService;
+  }
 
-    /**
-     * Register a new user.
-     *
-     * @param userRegisterDTO the user registration details
-     * @return the response entity with the registered user details
-     * @throws Exception if an error occurs during registration this exception will catch by the global exception handler
-     */
-    @PostMapping
-    public ResponseEntity<ResponseBody<UserResponseDTO>> register(@Valid @RequestBody UserRequestDTO userRegisterDTO) throws Exception {
-        UserResponseDTO registeredUser = registerService.register(userRegisterDTO);
-        return buildResponse(registeredUser);
-    }
+  /**
+   * Register a new user.
+   *
+   * @param userRegisterDTO the user registration details
+   * @return the response entity with the registered user details
+   * @throws Exception if an error occurs during registration this exception will catch by the
+   *     global exception handler
+   */
+  @PostMapping
+  public ResponseEntity<ResponseBody<UserResponseDTO>> register(
+      @Valid @RequestBody UserRequestDTO userRegisterDTO) throws Exception {
+    UserResponseDTO registeredUser = registerService.register(userRegisterDTO);
+    return buildResponse(registeredUser);
+  }
 
-    /**
-     * Build the response entity with the registered user details.
-     *
-     * @param registeredUser the registered user details
-     * @return the response entity
-     */
-    private ResponseEntity<ResponseBody<UserResponseDTO>> buildResponse(UserResponseDTO registeredUser) {
-        ResponseEntityBuilder<UserResponseDTO> builder = new ResponseEntityBuilder<>();
-        return builder
-                .withData(registeredUser)
-                .withStatus(HttpStatus.CREATED)
-                .withSuccess(true)
-                .build();
-    }
+  /**
+   * Build the response entity with the registered user details.
+   *
+   * @param registeredUser the registered user details
+   * @return the response entity
+   */
+  private ResponseEntity<ResponseBody<UserResponseDTO>> buildResponse(
+      UserResponseDTO registeredUser) {
+    ResponseEntityBuilder<UserResponseDTO> builder = new ResponseEntityBuilder<>();
+    return builder
+        .withData(registeredUser)
+        .withStatus(HttpStatus.CREATED)
+        .withSuccess(true)
+        .build();
+  }
 }
