@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Error {
-    private String id;
-    private String filed;
-    private String message;
+  private String id;
+  private String filed;
+  private String message;
 }

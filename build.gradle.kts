@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
+    id("com.diffplug.spotless") version "6.25.0"
 }
 
 group = "com.fsociety"
@@ -19,6 +20,17 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+    dependencies {
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
+    }
 }
 
 dependencies {
@@ -40,6 +52,24 @@ dependencies {
     implementation("joda-time:joda-time:2.12.7")
 
     implementation("me.paulschwarz:spring-dotenv:4.0.0")
+}
+
+apply(plugin = "com.diffplug.spotless")
+
+spotless {
+    java {
+        googleJavaFormat()
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+        removeUnusedImports()
+    }
+}
+
+tasks {
+    check {
+        dependsOn("spotlessApply")
+    }
 }
 
 tasks.withType<Test> {

@@ -13,31 +13,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceIml implements EmailService {
 
-    private final Logger log = LoggerFactory.getLogger(EmailServiceIml.class);
-    private final JavaMailSender emailSender;
+  private final Logger log = LoggerFactory.getLogger(EmailServiceIml.class);
+  private final JavaMailSender emailSender;
 
-    @Value("${spring.mail.username}")
-    private String from;
+  @Value("${spring.mail.username}")
+  private String from;
 
-    @Value("${config.domain.name}")
-    private String domainName;
+  @Value("${config.domain.name}")
+  private String domainName;
 
-    public EmailServiceIml(JavaMailSender emailSender) {
-        this.emailSender = emailSender;
-    }
+  public EmailServiceIml(JavaMailSender emailSender) {
+    this.emailSender = emailSender;
+  }
 
-
-    @Override
-    public void sendConfirmationEmail(String username, String email, String confirmationCode) {
-        new Thread(() -> {
-            log.info("*** Sending confirmation email from {} to {}", from, email);
-            log.info("*** Confirmation code: {}", confirmationCode);
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
-            try {
-                String confirmationLink = domainName + "/api/v1/confirm-user/" + username + "/" + confirmationCode;
+  @Override
+  public void sendConfirmationEmail(String username, String email, String confirmationCode) {
+    new Thread(
+            () -> {
+              log.info("*** Sending confirmation email from {} to {}", from, email);
+              log.info("*** Confirmation code: {}", confirmationCode);
+              MimeMessage message = emailSender.createMimeMessage();
+              MimeMessageHelper helper = new MimeMessageHelper(message);
+              try {
+                String confirmationLink =
+                    domainName + "/api/v1/confirm-user/" + username + "/" + confirmationCode;
                 // TODO: Move this to a template
-                String htmlMsg = """
+                String htmlMsg =
+                    """
                                 <html lang="en">
                                   <head>
                                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -55,7 +57,8 @@ public class EmailServiceIml implements EmailService {
                                       </div>
                                   </body>
                                 </html>
-                        """.replace("${username}", email)
+                        """
+                        .replace("${username}", email)
                         .replace("${confirmationLink}", confirmationLink);
 
                 helper.setFrom(from);
@@ -64,11 +67,10 @@ public class EmailServiceIml implements EmailService {
                 helper.setText(htmlMsg, true);
 
                 emailSender.send(message);
-            } catch (MessagingException e) {
+              } catch (MessagingException e) {
                 log.error("Error sending confirmation email to {}", email, e);
-            }
-        }).start();
-    }
-
-
+              }
+            })
+        .start();
+  }
 }

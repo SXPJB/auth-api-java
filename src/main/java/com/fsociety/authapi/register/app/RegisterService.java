@@ -5,5 +5,5 @@ import com.fsociety.authapi.register.domain.dto.UserResponseDTO;
 import com.fsociety.authapi.utils.RegistrationException;
 
 public interface RegisterService {
-    UserResponseDTO register(UserRequestDTO userRegisterDTO) throws RegistrationException;
+  UserResponseDTO register(UserRequestDTO userRegisterDTO) throws RegistrationException;
 }
