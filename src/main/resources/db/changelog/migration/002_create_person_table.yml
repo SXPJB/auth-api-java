@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: sxpjb
+      changes:
+        - createTable:
+            tableName: person
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: id_gender
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    references:
+                      foreignKeyName: fk_person_catalog
+                      referencedTableName: catalog
+                      referencedColumnNames: id
+              - column:
+                  name: active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: person

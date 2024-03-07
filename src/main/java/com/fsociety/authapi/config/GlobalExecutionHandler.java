@@ -99,6 +99,16 @@ public class GlobalExecutionHandler {
         .build();
   }
 
+  @ExceptionHandler(LoginAuthenticationException.class)
+  public ResponseEntity<ResponseBody<Error>> handleLoginAuthenticationException(
+      LoginAuthenticationException e) {
+    log.error("Login authentication exception", e);
+    return new ResponseEntityBuilder<Error>()
+        .withData(new Error(ErrorId.LOGIN_AUTHENTICATION.getId(), null, e.getMessage()))
+        .withStatus(HttpStatus.UNAUTHORIZED)
+        .build();
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ResponseBody<Error>> handleException(Exception e) {
     log.error("Internal server error", e);

@@ -1,5 +1,7 @@
 package com.fsociety.authapi.http.register.dto;
 
+import static com.fsociety.authapi.utils.PasswordUtils.encryptPassword;
+
 import com.fsociety.authapi.app.catalog.CatalogService;
 import com.fsociety.authapi.domain.Catalog;
 import com.fsociety.authapi.domain.Person;
@@ -19,7 +21,7 @@ public class UserRequestBuilder {
 
   public UserRequestBuilder fromUserRegisterDTO(UserRequestDTO dto) {
     user.setUsername(dto.getUsername());
-    user.setPassword(dto.getPassword());
+    user.setPassword(encryptPassword(dto.getPassword()));
 
     Person person = new Person();
     person.setFirstName(dto.getFirstName());

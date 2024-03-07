@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: sxpjb
+      changes:
+        - modifyDataType:
+            tableName: user
+            columnName: token
+            newDataType: text
+      rollback:
+        - modifyDataType:
+            tableName: user
+            columnName: token
+            newDataType: varchar(255)

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,10 +34,19 @@ public class User {
   private Timestamp createdAt;
   private Timestamp updatedAt;
 
+  public Map<String, Object> toMap() {
+    return Map.of(
+        "id_user", id,
+        "id_person", person.getId(),
+        "username", username,
+        "first_name", person.getFirstName(),
+        "last_name", person.getLastName());
+  }
+
   @PrePersist
   public void defaultValues() {
     this.active = true;
-    this.isConfirmed = true;
+    this.isConfirmed = false;
     var now = new Timestamp(LocalDateTime.now().toDateTime().getMillis());
     this.createdAt = now;
     this.updatedAt = now;
