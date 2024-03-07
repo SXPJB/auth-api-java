@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: sxpjb
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_person
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    references:
+                      foreignKeyName: fk_user_person
+                      referencedTableName: person
+                      referencedColumnNames: id
+              - column:
+                  name: username
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: token
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: is_confirmed
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: confirmation_code
+                  type: varchar(255)
+              - column:
+                  name: confirmation_code_expires
+                  type: timestamp
+              - column:
+                  name: active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: user

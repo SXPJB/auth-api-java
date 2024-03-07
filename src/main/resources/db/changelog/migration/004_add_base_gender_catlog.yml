@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: sxpjb
+      changes:
+        - sql:
+            sql: drop extension if exists "uuid-ossp"; CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        - insert:
+            tableName: catalog
+            columns:
+              - column:
+                  name: id
+                  valueComputed: uuid_generate_v4()
+              - column:
+                  name: catalog
+                  value: c_gender
+              - column:
+                  name: code
+                  value: F
+              - column:
+                  name: description
+                  value: Female
+        - insert:
+            tableName: catalog
+            columns:
+              - column:
+                  name: id
+                  valueComputed: uuid_generate_v4()
+              - column:
+                  name: catalog
+                  value: c_gender
+              - column:
+                  name: code
+                  value: M
+              - column:
+                  name: description
+                  value: Male
+      rollback:
+        - delete:
+            tableName: catalog
+            where:
+              column:
+              name: catalog='c_gender'
