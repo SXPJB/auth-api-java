@@ -48,11 +48,8 @@ public class ConfirmUserServiceImplTest {
 
   @Test
   void confirmUserWithNullUsername() {
-    String username = null;
     String confirmationCode = "confirmationCode";
-
-    boolean result = confirmUserService.confirmUser(username, confirmationCode);
-
+    boolean result = confirmUserService.confirmUser(null, confirmationCode);
     assertFalse(result);
   }
 }

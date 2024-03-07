@@ -1,4 +1,4 @@
-package com.fsociety.authapi.domain.dto;
+package com.fsociety.authapi.http.register.dto;
 
 import com.fsociety.authapi.app.catalog.CatalogService;
 import com.fsociety.authapi.domain.Catalog;
