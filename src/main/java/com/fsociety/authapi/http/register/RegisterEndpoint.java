@@ -1,8 +1,8 @@
 package com.fsociety.authapi.http.register;
 
 import com.fsociety.authapi.app.register.RegisterService;
-import com.fsociety.authapi.domain.dto.UserRequestDTO;
-import com.fsociety.authapi.domain.dto.UserResponseDTO;
+import com.fsociety.authapi.http.register.dto.UserRequestDTO;
+import com.fsociety.authapi.http.register.dto.UserResponseDTO;
 import com.fsociety.authapi.utils.ResponseBody;
 import com.fsociety.authapi.utils.ResponseEntityBuilder;
 import jakarta.validation.Valid;

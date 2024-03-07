@@ -1,4 +1,4 @@
-package com.fsociety.authapi.domain.dto;
+package com.fsociety.authapi.http.register.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;

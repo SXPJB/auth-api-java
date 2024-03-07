@@ -1,7 +1,6 @@
 package com.fsociety.authapi.unit.app.register;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -14,17 +13,23 @@ import com.fsociety.authapi.domain.Catalog;
 import com.fsociety.authapi.domain.PersonRepository;
 import com.fsociety.authapi.domain.User;
 import com.fsociety.authapi.domain.UserRepository;
-import com.fsociety.authapi.domain.dto.UserRequestBuilder;
-import com.fsociety.authapi.domain.dto.UserRequestDTO;
-import com.fsociety.authapi.domain.dto.UserResponseDTO;
+import com.fsociety.authapi.http.register.dto.UserRequestBuilder;
+import com.fsociety.authapi.http.register.dto.UserRequestDTO;
+import com.fsociety.authapi.http.register.dto.UserResponseDTO;
+import com.fsociety.authapi.utils.RegistrationException;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RegisterServiceImplTest {
+
+  private static final Logger log = LoggerFactory.getLogger(RegisterServiceImplTest.class);
+
   @Mock private EmailService emailService;
   @Mock private CatalogService catalogService;
   @Mock private UserRepository userRepository;
@@ -73,5 +78,21 @@ public class RegisterServiceImplTest {
     assertEquals(user.getPerson().getLastName(), result.getLastName());
     assertEquals(user.getPerson().getEmail(), result.getEmail());
     assertEquals(user.getPerson().getGender().getCode(), result.getGender());
+  }
+
+  @Test
+  void registerUserWithNullRequest() {
+    RegistrationException registrationException =
+        assertThrows(RegistrationException.class, () -> registerService.register(null));
+    assertTrue(registrationException.getMessage().contains("Error while registering user"));
+  }
+
+  @Test
+  void registerUserWithNullUsername() {
+    UserRequestDTO userRequestDTO = buildUserFromRequest();
+    userRequestDTO.setUsername(null);
+    RegistrationException registrationException =
+        assertThrows(RegistrationException.class, () -> registerService.register(userRequestDTO));
+    assertTrue(registrationException.getMessage().contains("Error while registering user"));
   }
 }
