@@ -1,24 +1,24 @@
 package com.fsociety.authapi.http.login.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fsociety.authapi.http.register.dto.UserResponseDTO;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginResponseDTO extends UserResponseDTO {
-  @JsonProperty(value = "token", index = 7)
-  private String token;
+public class LoginRequestDTO {
 
-  @JsonProperty(value = "token_type", index = 8)
-  private String tokenType;
+  @NotNull
+  @Size(min = 4, max = 80, message = "Username must be between 4 and 80 characters")
+  private String username;
 
-  @JsonProperty(value = "expires_in", index = 9)
-  private long expiresIn;
+  @NotNull
+  @Size(min = 8, max = 80, message = "Password must be between 8 and 80 characters")
+  private String password;
 
   @Override
   public String toString() {

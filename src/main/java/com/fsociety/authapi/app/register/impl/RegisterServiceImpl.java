@@ -14,6 +14,7 @@ import com.fsociety.authapi.utils.NotFoundException;
 import com.fsociety.authapi.utils.RegistrationException;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.TransactionalException;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
  * @author Emmanuel H. Ramirez (sxpjb)
  */
 @Service
+@AllArgsConstructor
 public class RegisterServiceImpl implements RegisterService {
   private final Logger log = LoggerFactory.getLogger(RegisterServiceImpl.class);
 
@@ -31,17 +33,6 @@ public class RegisterServiceImpl implements RegisterService {
   private final CatalogService genderService;
   private final UserRepository userRepository;
   private final PersonRepository personRepository;
-
-  public RegisterServiceImpl(
-      CatalogService genderService,
-      UserRepository userRepository,
-      PersonRepository personRepository,
-      EmailService emailService) {
-    this.genderService = genderService;
-    this.userRepository = userRepository;
-    this.personRepository = personRepository;
-    this.emailService = emailService;
-  }
 
   /**
    * Register a new user.
@@ -53,7 +44,7 @@ public class RegisterServiceImpl implements RegisterService {
   @Override
   @Transactional
   public UserResponseDTO register(UserRequestDTO userRegisterDTO) throws RegistrationException {
-    log.info("Registering user: \n{}", userRegisterDTO);
+    log.info("Registering user: \n{}", userRegisterDTO.getUsername());
     try {
       User user = buildUserFromRequest(userRegisterDTO);
       UserResponseDTO userResponseDTO = buildResponseFromUser(user);

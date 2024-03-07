@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
 @Setter
@@ -29,15 +28,6 @@ public class UserRequestDTO {
 
   @Email(message = "Invalid email, please provide a valid email address")
   private String email;
-
-  public void setPassword(String password) {
-    this.password = encryptPassword(password);
-  }
-
-  private String encryptPassword(String password) {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    return encoder.encode(password);
-  }
 
   @Override
   public String toString() {

@@ -82,8 +82,10 @@ public class RegisterServiceImplTest {
 
   @Test
   void registerUserWithNullRequest() {
+    UserRequestDTO userRequestDTO = new UserRequestDTO();
+    userRequestDTO.setUsername("123");
     RegistrationException registrationException =
-        assertThrows(RegistrationException.class, () -> registerService.register(null));
+        assertThrows(RegistrationException.class, () -> registerService.register(userRequestDTO));
     assertTrue(registrationException.getMessage().contains("Error while registering user"));
   }
 

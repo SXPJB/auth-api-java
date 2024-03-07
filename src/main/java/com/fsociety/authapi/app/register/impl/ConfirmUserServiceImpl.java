@@ -5,17 +5,15 @@ import com.fsociety.authapi.domain.User;
 import com.fsociety.authapi.domain.UserRepository;
 import java.sql.Timestamp;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
 import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class ConfirmUserServiceImpl implements ConfirmUserService {
 
   private final UserRepository userRepository;
-
-  public ConfirmUserServiceImpl(UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
 
   @Override
   public boolean confirmUser(String username, String confirmationCode) {
