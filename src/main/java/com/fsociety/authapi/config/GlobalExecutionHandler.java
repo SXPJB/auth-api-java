@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class GlobalExecutionHandler {
@@ -21,6 +22,7 @@ public class GlobalExecutionHandler {
   private final Logger log = LoggerFactory.getLogger(GlobalExecutionHandler.class);
 
   @ExceptionHandler(DataIntegrityViolationException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
   public ResponseEntity<ResponseBody<Error>> handleDataIntegrityViolationException(
       DataIntegrityViolationException e) {
     log.error("Data integrity violation exception", e);
@@ -48,6 +50,7 @@ public class GlobalExecutionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<ResponseBody<List<Error>>> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
     log.error("Method argument not valid exception", e);
@@ -68,6 +71,7 @@ public class GlobalExecutionHandler {
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<ResponseBody<List<Error>>> handleConstraintViolationException(
       ConstraintViolationException e) {
     log.error("Constraint violation exception", e);
@@ -91,6 +95,7 @@ public class GlobalExecutionHandler {
   }
 
   @ExceptionHandler(NotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<ResponseBody<Error>> handleNotFoundException(NotFoundException e) {
     log.error("Not found exception", e);
     return new ResponseEntityBuilder<Error>()
@@ -100,6 +105,7 @@ public class GlobalExecutionHandler {
   }
 
   @ExceptionHandler(LoginAuthenticationException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public ResponseEntity<ResponseBody<Error>> handleLoginAuthenticationException(
       LoginAuthenticationException e) {
     log.error("Login authentication exception", e);
@@ -110,6 +116,7 @@ public class GlobalExecutionHandler {
   }
 
   @ExceptionHandler(Exception.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<ResponseBody<Error>> handleException(Exception e) {
     log.error("Internal server error", e);
     return new ResponseEntityBuilder<Error>()
