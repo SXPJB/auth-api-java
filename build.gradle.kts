@@ -53,6 +53,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation("joda-time:joda-time:2.12.7")
 
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+
     implementation("io.jsonwebtoken:jjwt:0.12.5")
 
     implementation("me.paulschwarz:spring-dotenv:4.0.0")
