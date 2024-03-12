@@ -54,6 +54,7 @@ jobs:
           report_paths: '**/build/test-results/test/TEST-*.xml'
           token: ${{ github.token }}
       - name: Coverage Report
+        id: jacoco_reporter
         uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
           coverage_results_path: 'build/reports/jacoco/test/jacocoTestReport.xml'
