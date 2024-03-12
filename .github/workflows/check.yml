@@ -67,7 +67,12 @@ jobs:
           publish_only_summary: false
       - name: Add Coverage Job Summary
         run: |
-          echo "| Metric | Value |\n| --- | --- |\n| Coverage Percentage String | ${{ env.coveragePercentageString }} |\n| Coverage Percentage | ${{ env.coveragePercentage }} |\n| Coverage Percentage (underscore) | ${{ env.coverage_percentage }} |\n| Covered Lines | ${{ env.covered_lines }} |\n| Missed Lines | ${{ env.missed_lines }} |\n| Total Lines | ${{ env.total_lines }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric              | Value                               |" >> $GITHUB_STEP_SUMMARY
+          echo "|:--------------------|-------------------------------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Coverage Percentage | ${{ env.coveragePercentageString }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Covered Lines       | ${{ env.covered_lines }}            |" >> $GITHUB_STEP_SUMMARY
+          echo "| Missed Lines        | ${{ env.missed_lines }}             |" >> $GITHUB_STEP_SUMMARY
+          echo "| Total Lines         | ${{ env.total_lines }}              |" >> $GITHUB_STEP_SUMMARY
 
   check:
     runs-on: ubuntu-latest
