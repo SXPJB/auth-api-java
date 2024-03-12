@@ -79,6 +79,9 @@ tasks {
     }
     test{
         finalizedBy("jacocoTestReport")
+        reports {
+            junitXml.required = true
+        }
     }
     jacocoTestReport {
         dependsOn(test)

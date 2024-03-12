@@ -47,11 +47,11 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION }}
       - name: Test with Gradle
         run: ./gradlew test jacocoTestReport
-      - name: Upload test coverage
+      - name: Test Report
         uses: mikepenz/action-junit-report@v4
         if: success() || failure()
         with:
-          report_paths: 'build/reports/jacoco/test/jacocoTestReport.xml'
+          report_paths: '**/build/test-results/test/TEST-*.xml'
           token: ${{ github.token }}
   check:
     runs-on: ubuntu-latest
