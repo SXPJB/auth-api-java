@@ -1,5 +1,6 @@
 plugins {
     java
+    jacoco
     id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
     id("com.diffplug.spotless") version "6.25.0"
@@ -75,6 +76,24 @@ spotless {
 tasks {
     check {
         dependsOn("spotlessApply")
+    }
+    test{
+        finalizedBy("jacocoTestReport")
+    }
+    jacocoTestReport {
+        dependsOn(test)
+        reports{
+            xml.required = true
+        }
+    }
+    jacocoTestCoverageVerification{
+        violationRules {
+            rule {
+                limit {
+                    minimum = "0.8".toBigDecimal()
+                }
+            }
+        }
     }
 }
 
