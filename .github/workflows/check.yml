@@ -58,6 +58,7 @@ jobs:
         with:
           filename: 'build/reports/jacoco/test/jacocoTestReport.xml'
           format: 'markdown'
+      - name: Append to Summary
         run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
   check:
     runs-on: ubuntu-latest
