@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.joda.time.LocalDateTime;
 
@@ -15,6 +17,8 @@ import org.joda.time.LocalDateTime;
 @Table(name = "\"user\"")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)

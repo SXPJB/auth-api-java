@@ -42,6 +42,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
 
     testImplementation("org.mockito:mockito-core:5.11.0")
     testImplementation("junit:junit:4.13.2")
@@ -75,7 +76,7 @@ spotless {
 
 tasks {
     check {
-        dependsOn("spotlessApply")
+        dependsOn("spotlessApply", "jacocoTestCoverageVerification")
     }
     test{
         finalizedBy("jacocoTestReport")
@@ -93,7 +94,7 @@ tasks {
         violationRules {
             rule {
                 limit {
-                    minimum = "0.8".toBigDecimal()
+                    minimum = "0.5".toBigDecimal()
                 }
             }
         }

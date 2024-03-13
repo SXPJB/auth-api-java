@@ -40,6 +40,7 @@ public class LoginEndpoint {
     return new ResponseEntityBuilder<LoginResponseDTO>()
         .withData(loginResponse)
         .withStatus(HttpStatus.OK)
+        .withSuccess(true)
         .withMessage("Login successful")
         .build();
   }

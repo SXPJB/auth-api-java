@@ -7,6 +7,11 @@ env:
   JAVA_VERSION: 21
   JAVA_DISTRO: 'corretto'
   GRADLE_VERSION: 8.6
+  ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+  ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+  SERVER_PORT: ${{ secrets.SERVER_PORT }}
+  CONTEXT_PATH: ${{ secrets.CONTEXT_PATH }}
+
 permissions:
   checks: write
 jobs:

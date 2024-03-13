@@ -1,5 +1,6 @@
-package com.fsociety.authapi.app.catalog;
+package com.fsociety.authapi.app.catalog.impl;
 
+import com.fsociety.authapi.app.catalog.CatalogService;
 import com.fsociety.authapi.domain.Catalog;
 import com.fsociety.authapi.domain.CatalogRepository;
 import com.fsociety.authapi.utils.NotFoundException;
