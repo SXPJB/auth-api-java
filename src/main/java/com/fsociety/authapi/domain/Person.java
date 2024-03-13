@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.joda.time.LocalDateTime;
 
@@ -14,6 +16,8 @@ import org.joda.time.LocalDateTime;
 @Table(name = "person")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)

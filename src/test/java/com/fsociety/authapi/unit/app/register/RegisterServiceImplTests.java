@@ -23,12 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class RegisterServiceImplTest {
-
-  private static final Logger log = LoggerFactory.getLogger(RegisterServiceImplTest.class);
+class RegisterServiceImplTests {
 
   @Mock private EmailService emailService;
   @Mock private CatalogService catalogService;

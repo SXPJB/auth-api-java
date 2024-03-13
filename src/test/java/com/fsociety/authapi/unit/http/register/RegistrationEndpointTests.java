@@ -15,14 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class RegistrationEndpointTest {
-
-  private static final Logger log = LoggerFactory.getLogger(RegistrationEndpointTest.class);
+class RegistrationEndpointTests {
 
   @Mock private RegisterService registerService;
 
@@ -34,7 +30,7 @@ public class RegistrationEndpointTest {
   }
 
   @Test
-  public void registerSuccess() throws Exception {
+  void registerSuccess() throws Exception {
     UserRequestDTO userRequestDTO = buildRequestDTO();
     UserResponseDTO userResponseDTO = buildResponseDTO();
 
@@ -48,7 +44,7 @@ public class RegistrationEndpointTest {
   }
 
   @Test
-  public void registerFailure() {
+  void registerFailure() {
 
     when(registerService.register(null))
         .thenThrow(new RegistrationException("Error registering user", new Exception()));

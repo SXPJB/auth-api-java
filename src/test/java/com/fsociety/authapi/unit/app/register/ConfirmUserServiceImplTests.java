@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class ConfirmUserServiceImplTest {
+class ConfirmUserServiceImplTests {
   @Mock private UserRepository userRepository;
 
   @InjectMocks private ConfirmUserServiceImpl confirmUserService;
