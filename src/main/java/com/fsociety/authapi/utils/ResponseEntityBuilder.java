@@ -13,6 +13,12 @@ public class ResponseEntityBuilder<T> {
   private String msg;
   private T data;
 
+  public ResponseEntityBuilder() {
+    this.status = HttpStatus.OK;
+    this.success = true;
+    this.data = null;
+  }
+
   public ResponseEntityBuilder<T> withStatus(HttpStatus status) {
     this.status = status;
     return this;

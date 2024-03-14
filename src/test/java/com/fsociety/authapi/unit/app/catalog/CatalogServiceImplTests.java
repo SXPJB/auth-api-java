@@ -8,6 +8,7 @@ import com.fsociety.authapi.app.catalog.impl.CatalogServiceImpl;
 import com.fsociety.authapi.domain.Catalog;
 import com.fsociety.authapi.domain.CatalogRepository;
 import com.fsociety.authapi.utils.NotFoundException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,5 +48,29 @@ public class CatalogServiceImplTests {
     when(catalogRepository.findByCatalogAndCodeAndActiveIsTrue(catalog, code))
         .thenReturn(Optional.empty());
     assertThrows(NotFoundException.class, () -> catalogServiceImpl.findByGenderByCode(code));
+  }
+
+  @Test
+  void findAllGendersSuccess() throws NotFoundException {
+    var catalog = "c_gender";
+    var catalogs = buildListCatalog();
+    when(catalogRepository.findAllByCatalogAndActiveIsTrue(catalog))
+        .thenReturn(Optional.of(catalogs));
+
+    var result = catalogServiceImpl.findAllGenders();
+    assertEquals(catalogs.size(), result.size());
+  }
+
+  @Test
+  void findAllGendersFailure() {
+    var catalog = "wrongCatalog";
+    when(catalogRepository.findAllByCatalogAndActiveIsTrue(catalog)).thenReturn(Optional.empty());
+    assertThrows(NotFoundException.class, () -> catalogServiceImpl.findAllGenders());
+  }
+
+  private List<Catalog> buildListCatalog() {
+    return List.of(
+        new Catalog(UUID.randomUUID(), "c_gender", "M", "Male", true),
+        new Catalog(UUID.randomUUID(), "c_gender", "F", "Female", true));
   }
 }
