@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.persistence.*;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.UUID;
@@ -59,6 +61,22 @@ public class User {
   @PreUpdate
   public void updateValues() {
     this.updatedAt = new Timestamp(LocalDateTime.now().toDateTime().getMillis());
+  }
+
+  public void generateConfirmCode() {
+    // Set the confirmation code expiration time to 24 hours
+    SecureRandom random = new SecureRandom();
+    this.confirmationCode = new BigInteger(130, random).toString(32);
+  }
+
+  public void setConfirmCodeExpiresIn2h() {
+    this.confirmationCodeExpires =
+        new Timestamp(LocalDateTime.now().plusDays(1).toDateTime().getMillis());
+  }
+
+  public void regenerateConfirmCode() {
+    this.generateConfirmCode();
+    this.setConfirmCodeExpiresIn2h();
   }
 
   @Override

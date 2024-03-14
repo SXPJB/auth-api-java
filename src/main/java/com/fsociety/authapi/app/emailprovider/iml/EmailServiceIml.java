@@ -66,6 +66,7 @@ public class EmailServiceIml implements EmailService {
                                 <h1>Hello ${username}</h1>
                                 <p>Thank you for registering with us. Please click the link below to confirm your email address.</p>
                                 <a href="${confirmationLink}">Confirm Email</a>
+                                <p>Note: The confirmation code only has a lifetime of 24 hours. If you require assistance please contact support.</p>
                             </div>
                           </div>
                       </body>
