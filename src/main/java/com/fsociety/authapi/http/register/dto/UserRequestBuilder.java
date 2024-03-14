@@ -7,16 +7,19 @@ import com.fsociety.authapi.domain.Catalog;
 import com.fsociety.authapi.domain.Person;
 import com.fsociety.authapi.domain.User;
 import com.fsociety.authapi.utils.NotFoundException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.sql.Timestamp;
-import org.joda.time.LocalDateTime;
 
 public class UserRequestBuilder {
   private final User user;
 
   public UserRequestBuilder() {
     this.user = new User();
+  }
+
+  public UserRequestBuilder fromUser(User user) {
+    this.user.setUsername(user.getUsername());
+    this.user.setPassword(user.getPassword());
+    this.user.setPerson(user.getPerson());
+    return this;
   }
 
   public UserRequestBuilder fromUserRegisterDTO(UserRequestDTO dto) {
@@ -39,11 +42,8 @@ public class UserRequestBuilder {
   }
 
   public UserRequestBuilder withExpirationCode() {
-    SecureRandom random = new SecureRandom();
-    user.setConfirmationCode(new BigInteger(130, random).toString(32));
-    // Set the confirmation code expiration time to 24 hours
-    Timestamp expires = new Timestamp(LocalDateTime.now().plusDays(1).toDateTime().getMillis());
-    user.setConfirmationCodeExpires(expires);
+    user.generateConfirmCode();
+    user.setConfirmCodeExpiresIn2h();
     return this;
   }
 
