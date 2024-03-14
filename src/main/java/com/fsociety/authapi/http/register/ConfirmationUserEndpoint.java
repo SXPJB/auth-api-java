@@ -52,6 +52,7 @@ public class ConfirmationUserEndpoint {
     } catch (NotFoundException e) {
       return new ResponseEntityBuilder<Void>()
           .withStatus(HttpStatus.BAD_REQUEST)
+          .withSuccess(false)
           .withMessage(e.getMessage())
           .build();
     }
