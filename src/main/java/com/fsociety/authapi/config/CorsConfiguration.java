@@ -1,24 +1,14 @@
 package com.fsociety.authapi.config;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Component
-public class CorsConfiguration implements Filter {
+@Configuration
+public class CorsConfiguration implements WebMvcConfigurer {
 
   @Override
-  public void doFilter(
-      ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-      throws IOException, ServletException {
-    HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-    httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
-    httpServletResponse.setHeader(
-        "Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
-    httpServletResponse.setHeader(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    filterChain.doFilter(servletRequest, servletResponse);
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedHeaders("*");
   }
 }
