@@ -45,6 +45,15 @@ public class RegisterServiceImpl implements RegisterService {
   @Transactional
   public UserResponseDTO register(UserRequestDTO userRegisterDTO) throws RegistrationException {
     log.info("Registering user: \n{}", userRegisterDTO.getUsername());
+
+    if (userRepository.findByUsername(userRegisterDTO.getUsername()).isPresent()) {
+      throw new RegistrationException("Username already exists. Please choose another username.");
+    }
+
+    if (personRepository.findByEmail(userRegisterDTO.getEmail()).isPresent()) {
+      throw new RegistrationException("Email already exists. Please choose another email.");
+    }
+
     try {
       User user = buildUserFromRequest(userRegisterDTO);
       UserResponseDTO userResponseDTO = buildResponseFromUser(user);
