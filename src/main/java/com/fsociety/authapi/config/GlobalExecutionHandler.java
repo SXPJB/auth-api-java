@@ -115,6 +115,17 @@ public class GlobalExecutionHandler {
         .build();
   }
 
+  @ExceptionHandler(RegistrationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ResponseBody<Error>> handleRegistrationException(RegistrationException e) {
+    log.error("Registration exception", e);
+    return new ResponseEntityBuilder<Error>()
+        .withSuccess(false)
+        .withData(new Error(ErrorId.REGISTRATION.getId(), null, e.getMessage()))
+        .withStatus(HttpStatus.BAD_REQUEST)
+        .build();
+  }
+
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<ResponseBody<Error>> handleException(Exception e) {
